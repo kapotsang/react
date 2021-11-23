@@ -35,46 +35,34 @@ class ButtonClass extends React.Component {
 //   }
 // }
 
-class FilmsAPI extends React.Component {
+class FilmRow extends React.Component {
   render() {
-    const reactPackage = this.props.reactPackage;
+    const film = this.props.film;
 
     return (
       <tr>
-        <td>{reactPackage.film_id}</td>
-        <td>{reactPackage.title}</td>
-        <td>{reactPackage.language_id}</td>
+        <td>{film.film_id}</td>
+        <td>{film.title}</td>
+        <td>{film.language_id}</td>
       </tr>
     );
   }
 }
 
-class ReactPackages extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      top10Packages: [],
-      totalPackages: null,
-    };
-  }
-
-  componentDidMount() {
-    fetch("http://localhost:8080/allFilms")
-      .then((response) => response.json())
-      .then((jsonData) => {
-        const packages = jsonData.slice(0, 50);
-        this.setState({
-          top10Packages: packages,
-          totalPackages: jsonData.total,
-        });
-      });
-  }
+class FilmTable extends React.Component {
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     top10Packages: [],
+  //     totalPackages: null,
+  //   };
+  // }
 
   render() {
-    const rows = [];
-    this.state.top10Packages.forEach((reactPackage) => {
-      rows.push(<FilmsAPI reactPackage={reactPackage} />);
-    });
+    // const rows = [];
+    // this.state.top10Packages.forEach((filmEntry) => {
+    //   rows.push(<FilmsAPI filmEntry={filmEntry} />);
+    // });
 
     return (
       <div>
@@ -92,7 +80,7 @@ class ReactPackages extends React.Component {
             </td>
           </tr>
         </thead>
-        <tbody>{rows}</tbody>
+        <tbody>{this.props.rows}</tbody>
       </div>
     );
   }
@@ -172,10 +160,10 @@ class TitleInput extends React.Component {
         <input
           type="text"
           placeholder="Search Film Title"
-          value={searchFilm}
+          value={this.props.searchFilm}
           onChange={this.handleFilterTextChange}
         />
-        <input type="submit" value="Submit" className="btn-info btn-sm m-2" />
+        <input type="submit" value="Search" className="btn-info btn-sm m-2" />
       </form>
     );
   }
@@ -245,33 +233,46 @@ class DatabaseTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchFilms: "",
+      searchFilm: "",
       films: [],
       rows: [],
     };
+
     this.handleFilterTextChange = this.handleFilterTextChange.bind(this);
 
     this.handleClick = this.handleClick.bind(this);
   }
 
-  handleFilterTextChange(searchFilms) {
+  componentDidMount() {
+    fetch("http://localhost:8080/allFilms")
+      .then((response) => response.json())
+      .then((jsonData) => {
+        const packages = jsonData.slice(0, 50);
+        this.setState({
+          films: packages,
+          rows: packages,
+        });
+      });
+  }
+
+  handleFilterTextChange(searchFilm) {
     this.setState({
-      searchFilms: searchFilms,
+      searchFilm: searchFilm,
     });
   }
 
   handleClick(event) {
     event.preventDefault();
-    const searchFilms = this.state.searchFilms;
+    const searchFilm = this.state.searchFilm;
 
     const rows = [];
-    const film = this.state.top10Packages;
+    const films = this.state.films;
 
-    film.forEach((film) => {
-      if (film.title.toLowerCase().indexOf(searchFilms.toLowerCase()) === -1) {
+    films.forEach((film) => {
+      if (film.title.toLowerCase().indexOf(searchFilm.toLowerCase()) === -1) {
         return;
-        rows.push(film);
       }
+      rows.push(film);
     });
     this.setState({
       rows: rows,
@@ -279,13 +280,17 @@ class DatabaseTable extends React.Component {
   }
 
   render() {
+    const renderRows = [];
+    this.state.rows.forEach((film) => {
+      renderRows.push(<FilmRow film={film} key={film.title} />);
+    });
     return (
       <div>
         {" "}
         <h3> Search for a film</h3>
         <TitleInput
-          searchFilm={this.state.searchFilms}
-          onSearchFilms={this.handleFilterTextChange}
+          searchFilm={this.state.searchFilm}
+          onFilterTextChange={this.handleFilterTextChange}
           handleClick={this.handleClick}
         />
         <br />
@@ -294,7 +299,11 @@ class DatabaseTable extends React.Component {
         <h3> Delete a film</h3>
         <DeleteFilmForm />
         <br />
-        <ReactPackages />
+        <FilmTable
+          film={this.state.films}
+          searchFilm={this.state.searchFilm}
+          rows={renderRows}
+        />
         <br />
       </div>
     );
