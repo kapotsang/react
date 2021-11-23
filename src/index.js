@@ -244,7 +244,8 @@ class DatabaseTable extends React.Component {
   }
 
   componentDidMount() {
-    fetch("http://localhost:8080/allFilms")
+    // fetch("http://localhost:8080/allFilms")
+    fetch("http://18.234.196.171:8080/allFilms")
       .then((response) => response.json())
       .then((jsonData) => {
         const packages = jsonData.slice(0, 50);
