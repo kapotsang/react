@@ -228,60 +228,72 @@ class DeleteFilmForm extends React.Component {
     );
   }
 }
-//ALERT BOX?
-// class AddFilmClass extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       AddTitle: "",
-//       AddLangId: "",
-//     };
-//     this.handleAddNewTitle = this.handleAddNewTitle.bind(this);
-//     this.handleAddLangId = this.handleAddLangId.bind(this);
-//     this.handleAddNewFilm = this.handleAddNewFilm.bind(this);
-//   }
 
-//   handleAddTitle(event) {
-//     this.setState({ AddTitle: event.target.value });
-//   }
-//   handleAddLangId(event) {
-//     this.setState({ AddID: event.target.value });
-//   }
+class NewFilmForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      AddTitle: "",
+      AddLangID: "",
+    };
+    this.handleAddTitle = this.handleAddTitle.bind(this);
+    this.handleAddLangID = this.handleAddLangID.bind(this);
+    this.handleAddNewFilmEntry = this.handleAddNewFilmEntry.bind(this);
+  }
+  handleAddTitle(event) {
+    this.setState({ AddTitle: event.target.value });
+  }
+  handleAddLangID(event) {
+    this.setState({ AddLangID: event.target.value });
+  }
+  handleAddNewFilmEntry(event) {
+    alert("weee");
+    // console.log("help");
+    event.preventDefault();
+    const newTitle = this.state.AddTitle;
+    const newLangID = this.state.AddLangID;
+    // console.log(newTitle);
+    // console.log(newLangID);
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title: newTitle,
+        language_id: newLangID,
+      }),
+    };
 
-//   handleAddNewFilm(event) {
-//     event.preventDefault();
-//     const title = this.state.AddTitle;
-//     const lang_id = this.state.AddLangId;
-//     const requestOptions = {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify({
-//         title: title,
-//         lang_id: 1,
-//       }),
-//     };
-//     fetch("http://18.234.196.171:8080/newFilm", requestOptions).then(
-//       (response) => response.json()
-//     );
-//   }
-//   render() {
-//     return (
-//       <form
-//         onSubmit={(e) => {
-//           this.props.handleAddNewFilm(e);
-//         }}
-//       >
-//         <input
-//           type="text"
-//           placeholder="New Title"
-//           value={this.props.AddTitle}
-//           onChange={this.handleAddNewFilm}
-//         />
-//         <input type="submit" value="Search" className="btn-info btn-sm m-2" />
-//       </form>
-//     );
-//   }
-// }
+    fetch("http://localhost:8080/newFilm", requestOptions);
+  }
+  render() {
+    return (
+      <form
+        onSubmit={(event) => {
+          this.handleAddNewFilmEntry(event);
+        }}
+      >
+        Title:
+        <input
+          type="text"
+          placeholder="New Title"
+          value={this.state.AddTitle}
+          onChange={this.handleAddTitle}
+        />
+        Language ID:
+        <input
+          type="text"
+          placeholder="New Language ID"
+          value={this.state.AddLangID}
+          onChange={this.handleAddLangID}
+        />
+        <input type="submit" value="Add New Entry" />
+      </form>
+    );
+  }
+}
 
 class DatabaseTable extends React.Component {
   constructor(props) {
@@ -351,6 +363,7 @@ class DatabaseTable extends React.Component {
         />
         <br />
         <h3> Add a new film</h3>
+        <NewFilmForm />
         <h3> Delete a film</h3>
         <DeleteFilmForm />
         <br />
