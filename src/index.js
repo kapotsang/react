@@ -169,48 +169,48 @@ class TitleInput extends React.Component {
   }
 }
 
-class AddFilmForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      addTitle: "",
-      addFilmLangID: "",
-    };
-    this.handleChangeTitle = this.handleChangeTitle.bind(this);
-    this.handleChangeFilmID = this.handleChangeFilmLangID.bind(this);
-  }
+// //class AddFilmForm extends React.Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       addTitle: "",
+//       addFilmLangID: "",
+//     };
+//     this.handleChangeTitle = this.handleChangeTitle.bind(this);
+//     this.handleChangeFilmID = this.handleChangeFilmLangID.bind(this);
+//   }
 
-  handleChangeTitle(e) {
-    this.setState({ addTitle: e.target.value });
-  }
-  handleChangeFilmLangID(e) {
-    this.setState({ addFilmLangID: e.target.value });
-  }
+//   handleChangeTitle(e) {
+//     this.setState({ addTitle: e.target.value });
+//   }
+//   handleChangeFilmLangID(e) {
+//     this.setState({ addFilmLangID: e.target.value });
+//   }
 
-  render() {
-    //const addFilmText = this.props.addFilmAttributes;
-    const buttonAdd = "Add New Film";
-    return (
-      <form>
-        <input
-          type="text"
-          name="filmID"
-          required="required"
-          placeholder="New Film Language ID"
-          onChange={this.handleChangeFilmLangID}
-        />
-        <input
-          type="text"
-          name="title"
-          required="required"
-          placeholder="New Film Title"
-          onChange={this.handleChangeTitle}
-        />
-        <ButtonClass MyButtonText={buttonAdd} />
-      </form>
-    );
-  }
-}
+//   render() {
+//     //const addFilmText = this.props.addFilmAttributes;
+//     const buttonAdd = "Add New Film";
+//     return (
+//       <form>
+//         <input
+//           type="text"
+//           name="filmID"
+//           required="required"
+//           placeholder="New Film Language ID"
+//           onChange={this.handleChangeFilmLangID}
+//         />
+//         <input
+//           type="text"
+//           name="title"
+//           required="required"
+//           placeholder="New Film Title"
+//           onChange={this.handleChangeTitle}
+//         />
+//         <ButtonClass MyButtonText={buttonAdd} />
+//       </form>
+//     );
+//   }
+// }
 
 class DeleteFilmForm extends React.Component {
   render() {
@@ -228,6 +228,60 @@ class DeleteFilmForm extends React.Component {
     );
   }
 }
+//ALERT BOX?
+// class AddFilmClass extends React.Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       AddTitle: "",
+//       AddLangId: "",
+//     };
+//     this.handleAddNewTitle = this.handleAddNewTitle.bind(this);
+//     this.handleAddLangId = this.handleAddLangId.bind(this);
+//     this.handleAddNewFilm = this.handleAddNewFilm.bind(this);
+//   }
+
+//   handleAddTitle(event) {
+//     this.setState({ AddTitle: event.target.value });
+//   }
+//   handleAddLangId(event) {
+//     this.setState({ AddID: event.target.value });
+//   }
+
+//   handleAddNewFilm(event) {
+//     event.preventDefault();
+//     const title = this.state.AddTitle;
+//     const lang_id = this.state.AddLangId;
+//     const requestOptions = {
+//       method: "POST",
+//       headers: { "Content-Type": "application/json" },
+//       body: JSON.stringify({
+//         title: title,
+//         lang_id: 1,
+//       }),
+//     };
+//     fetch("http://18.234.196.171:8080/newFilm", requestOptions).then(
+//       (response) => response.json()
+//     );
+//   }
+//   render() {
+//     return (
+//       <form
+//         onSubmit={(e) => {
+//           this.props.handleAddNewFilm(e);
+//         }}
+//       >
+//         <input
+//           type="text"
+//           placeholder="New Title"
+//           value={this.props.AddTitle}
+//           onChange={this.handleAddNewFilm}
+//         />
+//         <input type="submit" value="Search" className="btn-info btn-sm m-2" />
+//       </form>
+//     );
+//   }
+// }
 
 class DatabaseTable extends React.Component {
   constructor(props) {
@@ -239,16 +293,16 @@ class DatabaseTable extends React.Component {
     };
 
     this.handleFilterTextChange = this.handleFilterTextChange.bind(this);
-
     this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
-    // fetch("http://localhost:8080/allFilms")
-    fetch("http://18.234.196.171:8080/allFilms")
+    fetch("http://localhost:8080/allFilms")
+      // fetch("http://18.234.196.171:8080/allFilms")
       .then((response) => response.json())
       .then((jsonData) => {
-        const packages = jsonData.slice(0, 50);
+        const packages = jsonData;
+        //.slice(0, 50);
         this.setState({
           films: packages,
           rows: packages,
@@ -263,6 +317,7 @@ class DatabaseTable extends React.Component {
   }
 
   handleClick(event) {
+    alert("You searched for" + this.state.searchFilm);
     event.preventDefault();
     const searchFilm = this.state.searchFilm;
 
@@ -296,7 +351,6 @@ class DatabaseTable extends React.Component {
         />
         <br />
         <h3> Add a new film</h3>
-        <AddFilmForm />
         <h3> Delete a film</h3>
         <DeleteFilmForm />
         <br />
@@ -312,22 +366,3 @@ class DatabaseTable extends React.Component {
 }
 
 ReactDOM.render(<DatabaseTable />, document.getElementById("root"));
-
-// const FILMS = [
-//   { title: "Magic Mike", film_id: "1", language_id: "1" },
-//   { title: "Magical Michael", film_id: "2", language_id: "1" },
-//   { title: "Magnificant Mystical Michael", film_id: "3", language_id: "1" },
-//   { title: "Mega Mecha Michael", film_id: "4", language_id: "1" },
-// ];
-
-// class DeleteSection extends React.Component{
-//     render(){
-//         const deleteInput = "Delete Film ID"
-//         const buttonDelete = "Delete"
-//             return(
-//                 <DeleteFilmForm deleteFilmID = {deleteInput}/>
-//                 <ButtonClass MyButtonText = {buttonDelete}/>
-
-//             )
-//     }
-// }
