@@ -1,7 +1,6 @@
 import React, { useEffect, useState, Fragment } from "react";
 import ReactDOM from "react-dom";
-
-// const FILMS = [];
+import './style.css';
 
 class ButtonClass extends React.Component {
   render() {
@@ -10,30 +9,6 @@ class ButtonClass extends React.Component {
     return <button onClick={this.props.onClick}>{buttonText}</button>;
   }
 }
-
-// class FilmRow extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       film: film,
-//     };
-//   }
-
-//   render() {
-//     const film = this.props.film;
-//     const title = film.props.title;
-//     const film_id = film.film_id;
-//     const lang = film.language_id;
-
-//     return (
-//       <tr>
-//         <td>{film_id}</td>
-//         <td>{title}</td>
-//         <td>{lang}</td>
-//       </tr>
-//     );
-//   }
-// }
 
 class FilmRow extends React.Component {
   render() {
@@ -50,22 +25,11 @@ class FilmRow extends React.Component {
 }
 
 class FilmTable extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     top10Packages: [],
-  //     totalPackages: null,
-  //   };
-  // }
-
   render() {
-    // const rows = [];
-    // this.state.top10Packages.forEach((filmEntry) => {
-    //   rows.push(<FilmsAPI filmEntry={filmEntry} />);
-    // });
+
 
     return (
-      <div>
+      <div id="film-table">
         <thead style={{ textAlign: "" }}>
           <tr>
             <td>
@@ -85,61 +49,6 @@ class FilmTable extends React.Component {
     );
   }
 }
-
-//   class AddFilm extends React.Component {
-//   constructor(props) {
-//   super(props);
-
-//   this.state = {
-//   postTitle: null,
-//   };
-//   }
-// }
-
-// class FilmTable extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       totalPackages: null,
-//       FILMS: [],
-//     };
-//   }
-
-//   componentDidMount() {
-//     fetch("http://localhost:8080/allFilms")
-//       .then((response) => response.json())
-//       .then((jsonData) => {
-//         this.setState({
-//           films: FILMS,
-//         });
-//       });
-//   }
-
-//   render() {
-//     const rows = [];
-//     const filterText = this.props.filterText;
-//     this.props.films.forEach((film) => {
-//       if (film.title.toLowerCase().indexOf(filterText.toLowerCase()) === -1) {
-//         return;
-//       }
-//       // || logical or
-//       rows.push(<FilmRow film={film} key={film.title} />);
-//     });
-//     return (
-//       <table>
-//         <thead>
-//           <tr>
-//             <th>Film ID</th>
-//             <th>Title</th>
-//             <th>Language ID</th>
-//           </tr>
-//         </thead>
-//         <tbody>{rows}</tbody>
-//         <table> </table>
-//       </table>
-//     );
-//   }
-// }
 
 class TitleInput extends React.Component {
   constructor(props) {
@@ -168,49 +77,6 @@ class TitleInput extends React.Component {
     );
   }
 }
-
-// //class AddFilmForm extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       addTitle: "",
-//       addFilmLangID: "",
-//     };
-//     this.handleChangeTitle = this.handleChangeTitle.bind(this);
-//     this.handleChangeFilmID = this.handleChangeFilmLangID.bind(this);
-//   }
-
-//   handleChangeTitle(e) {
-//     this.setState({ addTitle: e.target.value });
-//   }
-//   handleChangeFilmLangID(e) {
-//     this.setState({ addFilmLangID: e.target.value });
-//   }
-
-//   render() {
-//     //const addFilmText = this.props.addFilmAttributes;
-//     const buttonAdd = "Add New Film";
-//     return (
-//       <form>
-//         <input
-//           type="text"
-//           name="filmID"
-//           required="required"
-//           placeholder="New Film Language ID"
-//           onChange={this.handleChangeFilmLangID}
-//         />
-//         <input
-//           type="text"
-//           name="title"
-//           required="required"
-//           placeholder="New Film Title"
-//           onChange={this.handleChangeTitle}
-//         />
-//         <ButtonClass MyButtonText={buttonAdd} />
-//       </form>
-//     );
-//   }
-// }
 
 class DeleteFilmForm extends React.Component {
   render() {
@@ -353,7 +219,7 @@ class DatabaseTable extends React.Component {
       renderRows.push(<FilmRow film={film} key={film.title} />);
     });
     return (
-      <div>
+      <div id ="filmtable">
         {" "}
         <h3> Search for a film</h3>
         <TitleInput

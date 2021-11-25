@@ -1,0 +1,13 @@
+body{
+    background-color: rgb(224, 224, 224);
+}
+
+div#film-table {
+    background-color: rgb(196, 201, 202);
+    width: 1000px;
+    height: 500px;
+    overflow: scroll;
+  }
+  div{
+    font-family: Arial, Helvetica, sans-serif;
+  }
