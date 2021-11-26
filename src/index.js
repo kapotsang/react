@@ -113,9 +113,9 @@ class NewFilmForm extends React.Component {
     this.setState({ AddLangID: event.target.value });
   }
   handleAddNewFilmEntry(event) {
-    alert("weee");
+    alert("You've added " +this.state.AddTitle);
     // console.log("help");
-    event.preventDefault();
+   // event.preventDefault();
     const newTitle = this.state.AddTitle;
     const newLangID = this.state.AddLangID;
     // console.log(newTitle);
@@ -132,22 +132,28 @@ class NewFilmForm extends React.Component {
       }),
     };
 
-    fetch("http://localhost:8080/newFilm", requestOptions);
+    //fetch("http://localhost:8080/newFilm", requestOptions);
+    fetch("http://34.203.10.199:8080/newFilm", requestOptions)
   }
   render() {
     return (
+      <div id = "newfilm">
       <form
         onSubmit={(event) => {
           this.handleAddNewFilmEntry(event);
         }}
       >
+      <p>
         Title:
-        <input
+        
+        <input 
           type="text"
           placeholder="New Title"
           value={this.state.AddTitle}
           onChange={this.handleAddTitle}
         />
+        <br/>
+        </p><p>
         Language ID:
         <input
           type="text"
@@ -155,8 +161,11 @@ class NewFilmForm extends React.Component {
           value={this.state.AddLangID}
           onChange={this.handleAddLangID}
         />
+        </p>
+        <br/>
         <input type="submit" value="Add New Entry" />
       </form>
+      </div>
     );
   }
 }
@@ -175,8 +184,8 @@ class DatabaseTable extends React.Component {
   }
 
   componentDidMount() {
-    fetch("http://localhost:8080/allFilms")
-      // fetch("http://18.234.196.171:8080/allFilms")
+    //fetch("http://localhost:8080/allFilms")
+      fetch("http://34.203.10.199:8080/allFilms")
       .then((response) => response.json())
       .then((jsonData) => {
         const packages = jsonData;
@@ -195,8 +204,8 @@ class DatabaseTable extends React.Component {
   }
 
   handleClick(event) {
-    alert("You searched for" + this.state.searchFilm);
-    event.preventDefault();
+    alert("You searched for " + this.state.searchFilm);
+   // event.preventDefault();
     const searchFilm = this.state.searchFilm;
 
     const rows = [];
@@ -221,6 +230,8 @@ class DatabaseTable extends React.Component {
     return (
       <div id ="filmtable">
         {" "}
+        <h1 id="websitetitle"> KAPO'S BIG OL FILM DATABASE </h1>
+
         <h3> Search for a film</h3>
         <TitleInput
           searchFilm={this.state.searchFilm}
@@ -238,6 +249,16 @@ class DatabaseTable extends React.Component {
           searchFilm={this.state.searchFilm}
           rows={renderRows}
         />
+        <p id="review"><h2>Read our glowing reviews!</h2></p>
+        <p id="review" >"I don't use this website" - Jared Leto
+        </p>
+        <p id="review">"Sir this is a Subway" - Subway Employee</p>
+        <p id="review">"If you do not cease the aforementioned Activity a lawsuit will be commenced against you.<br/>
+
+If the Activity continues we will immediately seek a temporary restraining order in the District Court 
+against you and any accomplices in this matter. <br/>
+We will also seek monetary damages to be proved at trial. 
+" -United Kingdom Supreme Court </p>
         <br />
       </div>
     );
